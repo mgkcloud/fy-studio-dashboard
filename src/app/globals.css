@@ -76,7 +76,7 @@
 }
 
 .gradient-bg {
-  @apply bg-gradient-to-br from-indigo-50 to-white;
+  @apply bg-gradient-to-br from-accent to-background dark:from-accent dark:to-background;
 }
 
 .card-hover {
@@ -84,9 +84,9 @@
 }
 
 .button-primary {
-  @apply bg-primary text-white font-semibold py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors duration-300;
+  @apply bg-primary text-primary-foreground font-semibold py-2 px-4 rounded-lg hover:bg-primary/90 transition-colors duration-300;
 }
 
 .input-primary {
-  @apply border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-lg shadow-sm;
+  @apply border-input focus:border-primary focus:ring-primary rounded-lg shadow-sm;
 }
