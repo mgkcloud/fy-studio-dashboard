@@ -5,41 +5,35 @@ import Sidebar from './Sidebar'
 import Header from './Header'
 import KPISection from './KPISection'
 import CallAnalysis from './CallAnalysis'
-import AssistantsTable from './AssistantsTable'
-import DateRangePicker from './DateRangePicker'
-import CallDetails from './CallDetails'
 import CallsTable from './CallsTable'
+import CallHighlights from './CallHighlights'
+import DateRangePicker from './DateRangePicker'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const Dashboard: React.FC = () => {
   const [dateRange, setDateRange] = useState({ start: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), end: new Date() });
   const [selectedAssistant, setSelectedAssistant] = useState<string | null>(null);
-  const [selectedCall, setSelectedCall] = useState<string | null>(null);
   const [minDuration, setMinDuration] = useState<number>(0);
   const [callStatus, setCallStatus] = useState<string | null>(null);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100 lg:flex-row">
+    <div className="flex flex-col h-screen bg-gradient-to-br from-indigo-50 to-white lg:flex-row">
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden">
         <Header />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-4 lg:p-8">
-          <div className="max-w-7xl mx-auto">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-4 lg:mb-6">VAPI Dashboard</h1>
+        <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 lg:p-8">
+          <div className="max-w-7xl mx-auto space-y-8">
+            <h1 className="text-3xl font-bold text-indigo-900">AI-Powered Call Analytics</h1>
             <DateRangePicker onChange={setDateRange} />
-            <Tabs defaultValue="overview" className="mt-6">
-              <TabsList>
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="calls">Calls</TabsTrigger>
-                <TabsTrigger value="callDetails">Call Details</TabsTrigger>
+            <Tabs defaultValue="overview" className="space-y-6">
+              <TabsList className="bg-indigo-100 p-1 rounded-lg">
+                <TabsTrigger value="overview" className="data-[state=active]:bg-white data-[state=active]:text-indigo-900">Overview</TabsTrigger>
+                <TabsTrigger value="calls" className="data-[state=active]:bg-white data-[state=active]:text-indigo-900">Calls</TabsTrigger>
+                <TabsTrigger value="highlights" className="data-[state=active]:bg-white data-[state=active]:text-indigo-900">Call Highlights</TabsTrigger>
               </TabsList>
-              <TabsContent value="overview">
+              <TabsContent value="overview" className="space-y-6">
                 <KPISection dateRange={dateRange} />
                 <CallAnalysis dateRange={dateRange} />
-                <AssistantsTable 
-                  dateRange={dateRange} 
-                  onAssistantSelect={setSelectedAssistant}
-                />
               </TabsContent>
               <TabsContent value="calls">
                 <CallsTable 
@@ -47,17 +41,13 @@ const Dashboard: React.FC = () => {
                   selectedAssistant={selectedAssistant}
                   minDuration={minDuration}
                   callStatus={callStatus}
-                  onCallSelect={setSelectedCall}
+                  onAssistantSelect={setSelectedAssistant}
                   onMinDurationChange={setMinDuration}
                   onCallStatusChange={setCallStatus}
                 />
               </TabsContent>
-              <TabsContent value="callDetails">
-                {selectedCall ? (
-                  <CallDetails callId={selectedCall} />
-                ) : (
-                  <p>Please select a call from the Calls tab to view details.</p>
-                )}
+              <TabsContent value="highlights">
+                <CallHighlights dateRange={dateRange} />
               </TabsContent>
             </Tabs>
           </div>
